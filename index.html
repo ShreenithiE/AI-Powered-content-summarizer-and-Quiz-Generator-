@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUIZ-SUMMARIZER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* High Contrast Black & Crimson Architecture */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #070708 0%, #0d0d11 50%, #020203 100%);
+            --panel-bg: #121216;
+            --panel-border: rgba(239, 68, 68, 0.2);
+            --panel-border-glow: rgba(239, 68, 68, 0.4);
+            --primary: #ef4444;
+            --primary-glow: rgba(239, 68, 68, 0.25);
+            --accent: #b91c1c;
+            --success: #dc2626; /* Kept in theme palette */
+            --text-title: #ffffff;
+            --text-body: #94a3b8;
+            --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.9);
+            --item-bg: #181820;
+            --item-border: rgba(255, 255, 255, 0.05);
+            --btn-bg: #1e1e26;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text-body);
+            margin: 0;
+            padding: 50px 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 12px 0;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            color: #64748b;
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .cyber-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--card-shadow), 0 0 15px rgba(239, 68, 68, 0.03);
+            margin-bottom: 35px;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+            transition: border-color 0.3s ease;
+        }
+
+        .cyber-panel:hover {
+            border-color: var(--panel-border-glow);
+        }
+
+        .form-group { margin-bottom: 30px; }
+
+        label.section-label {
+            font-weight: 700;
+            display: block;
+            margin-bottom: 12px;
+            color: var(--primary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: inherit;
+            color: var(--text-title);
+            transition: all 0.3s ease;
+            background: #16161e;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+            background: #1a1a24;
+        }
+
+        .file-upload-zone {
+            position: relative;
+            padding: 30px;
+            border: 2px dashed rgba(239, 68, 68, 0.3);
+            border-radius: 14px;
+            background: #16161e;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-zone:hover {
+            border-color: var(--primary);
+            background: rgba(239, 68, 68, 0.04);
+        }
+
+        .file-upload-zone input[type="file"] {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;
+        }
+
+        .difficulty-picker {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .difficulty-card { position: relative; }
+        .difficulty-card input[type="radio"] { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
+        
+        .difficulty-label {
+            display: block; text-align: center; background: #16161e;
+            border: 1px solid rgba(255, 255, 255, 0.05); padding: 14px; border-radius: 12px;
+            font-weight: 600; font-size: 15px; color: var(--text-body); transition: all 0.25s ease;
+        }
+        .difficulty-card input[type="radio"]:checked + .difficulty-label {
+            background: var(--primary); color: #000000; border-color: var(--primary); font-weight: 700;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        button.submit-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: #ffffff; border: none; padding: 16px 32px; font-size: 16px; font-weight: 700;
+            border-radius: 14px; cursor: pointer; width: 100%; transition: all 0.3s ease;
+            text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+        }
+
+        button.submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .section-title { font-size: 1.5rem; color: var(--text-title); margin-top: 0; margin-bottom: 20px; font-weight: 700; letter-spacing: -0.5px; }
+
+        /* Quiz Item Nodes */
+        .quiz-item {
+            background: var(--item-bg);
+            border: 1px solid var(--item-border);
+            border-radius: 16px; padding: 25px; margin-bottom: 20px;
+        }
+
+        .quiz-item p { font-size: 1.15rem; font-weight: 600; color: var(--text-title); line-height: 1.5; }
+
+        .options-container { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+
+        .option-btn {
+            background: var(--btn-bg); color: var(--text-body); border: 1px solid var(--item-border);
+            padding: 16px 22px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 500;
+            font-family: inherit; transition: all 0.25s ease;
+        }
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary); color: #ffffff;
+        }
+        .option-btn.wrong { opacity: 0; transform: scale(0.85); pointer-events: none; padding: 0; margin: 0; height: 0; border: none; overflow: hidden; }
+        
+        .option-btn.correct { 
+            background: var(--primary) !important; 
+            color: #000000 !important; 
+            border-color: var(--primary) !important; 
+            font-weight: 700;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .explanation {
+            margin-top: 20px; padding: 18px; background: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid var(--primary); border-radius: 4px 12px 12px 4px;
+            font-size: 15px; color: #fecaca; line-height: 1.6; animation: slideDown 0.4s ease both;
+        }
+
+        /* Scorecard Dash Elements */
+        .analytics-scorecard {
+            display: flex; align-items: center; justify-content: space-around;
+            flex-wrap: wrap; gap: 30px; text-align: center; margin-top: 10px;
+        }
+        
+        .radial-chart-box { position: relative; width: 150px; height: 150px; }
+        
+        .circular-svg { transform: rotate(-90deg); width: 150px; height: 150px; }
+        .circular-svg circle { fill: none; stroke-width: 12; stroke-linecap: round; }
+        .circular-svg .bg-ring { stroke: rgba(255, 255, 255, 0.05); }
+        
+        .circular-svg .progress-ring {
+            stroke: var(--primary);
+            stroke-dasharray: 440;
+            stroke-dashoffset: 440;
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .chart-percentage {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 24px; font-weight: 700; color: var(--text-title);
+        }
+
+        .metric-badge {
+            background: var(--accent); color: white; padding: 8px 16px;
+            border-radius: 20px; font-weight: 700; display: inline-block; margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        .hidden { display: none !important; }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-12px); max-height: 0; } to { opacity: 1; transform: translateY(0); max-height: 250px; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>AI-QUIZ AND SUMMARIZER</h1>
+        <p style="color: #4b5563;">Convert text arrays and data streams into dynamic cyber checkpoints.</p>
+    </header>
+    
+    <div class="cyber-panel">
+        <form id="contentForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label class="section-label">paste the content</label>
+                <textarea name="content" placeholder="Drop context payload data or structural documentation strings here..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="section-label">upload file such as pdf and txt </label>
+                <div class="file-upload-zone">
+                    <span style="color: var(--text-body); font-weight: 500;">Select or drag system source target (.pdf / .txt)</span>
+                    <input type="file" name="file_upload" accept=".pdf,.txt">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="section-label">QUIZ </label>
+                <div class="difficulty-picker">
+                    <div class="difficulty-card">
+                        <input type="radio" name="difficulty" value="easy">
+                        <span class="difficulty-label">Low </span>
+                    </div>
+                    <div class="difficulty-card">
+                        <input type="radio" name="difficulty" value="medium" checked>
+                        <span class="difficulty-label">Mid</span>
+                    </div>
+                    <div class="difficulty-card">
+                        <input type="radio" name="difficulty" value="hard">
+                        <span class="difficulty-label">High</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">GENERATE QUIZ</button>
+        </form>
+    </div>
+
+    <div id="analyticsDashboard" class="cyber-panel hidden" style="border-color: var(--primary);">
+        <h2 class="section-title" style="color: var(--primary); text-align: center; text-transform: uppercase; letter-spacing: 1px;">Evaluation Decrypted</h2>
+        <div class="analytics-scorecard">
+            <div class="radial-chart-box">
+                <svg class="circular-svg">
+                    <circle class="bg-ring" cx="75" cy="75" r="70"></circle>
+                    <circle class="progress-ring" id="scoreRing" cx="75" cy="75" r="70"></circle>
+                </svg>
+                <div class="chart-percentage" id="scorePercent">0%</div>
+            </div>
+            <div>
+                <p style="margin: 0; font-size: 16px; font-weight: 500; color: #64748b;">First-Try Clean Clearance</p>
+                <div id="scoreRatio" style="font-size: 32px; font-weight: 800; color: var(--text-title); margin: 5px 0;">0 / 0</div>
+                <div class="metric-badge" id="masteryRank">Access Token...</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultsSection" class="hidden">
+        <div class="cyber-panel">
+            <h2 class="section-title" style="color: var(--primary);">Document Abstract</h2>
+            <p id="summaryText" style="line-height: 1.8; color: #cbd5e1;"></p>
+        </div>
+
+        <div class="cyber-panel">
+            <h2 class="section-title" style="color: var(--primary);">Quiz Questions</h2>
+            <div id="quizContainer"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // System Tracking Configurations
+    let totalQuestionsCount = 0;
+    let correctlyAnsweredCount = 0;
+    let firstTryCorrectCount = 0;
+    let missedQuestionsArray = [];
+
+    document.getElementById('contentForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const resultsSection = document.getElementById('resultsSection');
+        const analyticsDashboard = document.getElementById('analyticsDashboard');
+        
+        analyticsDashboard.classList.add('hidden');
+        correctlyAnsweredCount = 0;
+        firstTryCorrectCount = 0;
+        missedQuestionsArray = [];
+
+        try {
+            const response = await fetch('/process/', { method: 'POST', body: formData });
+            const data = await response.json();
+            
+            if (response.ok) {
+                document.getElementById('summaryText').textContent = data.summary;
+                
+                const quizContainer = document.getElementById('quizContainer');
+                quizContainer.innerHTML = ''; 
+                totalQuestionsCount = data.quiz.length;
+                
+                data.quiz.forEach((item, qIndex) => {
+                    const quizItem = document.createElement('div');
+                    quizItem.className = 'quiz-item';
+                    
+                    const qTitle = document.createElement('p');
+                    qTitle.innerHTML = `<span style="color:var(--primary); margin-right:8px;">[NODE 0${qIndex + 1}]</span> ${item.question}`;
+                    quizItem.appendChild(qTitle);
+                    
+                    const optionsBox = document.createElement('div');
+                    optionsBox.className = 'options-container';
+                    
+                    const expBox = document.createElement('div');
+                    expBox.className = 'explanation hidden';
+                    expBox.innerHTML = `${item.explanation}`;
+                    
+                    item.options.forEach(option => {
+                        const btn = document.createElement('button');
+                        btn.className = 'option-btn';
+                        btn.type = 'button';
+                        btn.innerText = option;
+                        
+                        btn.addEventListener('click', function() {
+                            if (option === item.correct) {
+                                btn.classList.add('correct');
+                                optionsBox.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+                                expBox.classList.remove('hidden');
+                                
+                                correctlyAnsweredCount++;
+                                if (!missedQuestionsArray.includes(qIndex)) {
+                                    firstTryCorrectCount++;
+                                }
+                                
+                                if (correctlyAnsweredCount === totalQuestionsCount) {
+                                    triggerFinalScorecardReport();
+                                }
+                            } else {
+                                btn.classList.add('wrong');
+                                if (!missedQuestionsArray.includes(qIndex)) {
+                                    missedQuestionsArray.push(qIndex);
+                                }
+                            }
+                        });
+                        optionsBox.appendChild(btn);
+                    });
+                    
+                    quizItem.appendChild(optionsBox);
+                    quizItem.appendChild(expBox);
+                    quizContainer.appendChild(quizItem);
+                });
+                
+                resultsSection.classList.remove('hidden');
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                alert(data.error || 'Server processing error.');
+            }
+        } catch (error) {
+            console.error('Network transaction exception:', error);
+        }
+    });
+
+    function triggerFinalScorecardReport() {
+        const dashboard = document.getElementById('analyticsDashboard');
+        const ring = document.getElementById('scoreRing');
+        const percentText = document.getElementById('scorePercent');
+        const ratioText = document.getElementById('scoreRatio');
+        const rankText = document.getElementById('masteryRank');
+
+        const finalPercentageValue = Math.round((firstTryCorrectCount / totalQuestionsCount) * 100);
+        
+        const strokeCircumference = 440;
+        const strokeOffsetValue = strokeCircumference - (finalPercentageValue / 100) * strokeCircumference;
+        
+        ratioText.innerText = `${firstTryCorrectCount} / ${totalQuestionsCount}`;
+        percentText.innerText = `${finalPercentageValue}%`;
+        
+        if (finalPercentageValue === 100) {
+            rankText.innerText = "⚡ Core Archon";
+        } else if (finalPercentageValue >= 75) {
+            rankText.innerText = "🛡️ Cyber Operative";
+        } else if (finalPercentageValue >= 50) {
+            rankText.innerText = "🔧 Tech Specialist";
+        } else {
+            rankText.innerText = "💾 Buffer Rookie";
+        }
+
+        dashboard.classList.remove('hidden');
+        dashboard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        setTimeout(() => {
+            ring.style.strokeDashoffset = strokeOffsetValue;
+        }, 150);
+    }
+</script>
+
+</body>
+</html>
