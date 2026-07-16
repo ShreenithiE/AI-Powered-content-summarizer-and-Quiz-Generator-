@@ -30,3 +30,24 @@ Built using a high-contrast **Black & Red**, the platform operates completely cl
 
 
 <img width="1470" height="757" alt="image" src="https://github.com/user-attachments/assets/28157755-b186-4a05-93b2-1056e2f54432" />
+
+
+<img width="1385" height="445" alt="image" src="https://github.com/user-attachments/assets/9fbc3969-4f30-4425-954b-97c2cfda1c97" />
+
+<img width="1350" height="637" alt="image" src="https://github.com/user-attachments/assets/9b5ab555-9bfc-4817-8b56-9b93f1f808df" />
+
+<img width="1161" height="372" alt="image" src="https://github.com/user-attachments/assets/1b077c81-278d-4d8e-b522-1cc97e09dfa9" />
+
+**Video Description**
+
+
+
+https://github.com/user-attachments/assets/39bc3a04-6cee-4834-ba71-8c1056fedab4
+
+
+
+
+
+
+
+
